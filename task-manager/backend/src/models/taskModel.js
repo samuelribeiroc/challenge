@@ -1,7 +1,17 @@
 let tasks = [];
 
 const TaskModel = {
-  getAllTasks: () => tasks,
+  getPendingTasks: () => (
+    tasks.filter(task => task.status === 'pending')
+  ),
+
+  getDoingTasks: () => (
+    tasks.filter(task => task.status === 'doing')
+  ),
+
+  getDoneTasks: () => (
+    tasks.filter(task => task.status === 'done')
+  ),
   
   addTask: (task) => {
     tasks.push(task);

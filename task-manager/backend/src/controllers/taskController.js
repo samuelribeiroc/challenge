@@ -1,8 +1,18 @@
 const TaskModel = require('../models/taskModel');
 
 const TaskController = {
-  getTasks: (req, res) => {
-    const tasks = TaskModel.getAllTasks();
+  getPending: (req, res) => {
+    const tasks = TaskModel.getPendingTasks();
+    res.json(tasks);
+  },
+
+  getDoing: (req, res) => {
+    const tasks = TaskModel.getDoingTasks();
+    res.json(tasks);
+  },
+
+  getDone: (req, res) => {
+    const tasks = TaskModel.getDoneTasks();
     res.json(tasks);
   },
 
