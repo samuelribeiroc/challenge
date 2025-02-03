@@ -19,7 +19,6 @@ const TaskController = {
   getById: (req, res) => {
     const taskId = req.params.id;
     const task = TaskModel.getTaskById(taskId);
-    console.log(task);
     res.json(task);
   },
 
