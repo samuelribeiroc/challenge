@@ -12,6 +12,10 @@ const TaskModel = {
   getDoneTasks: () => (
     tasks.filter(task => task.status === 'done')
   ),
+
+  getTaskById: (id) => (
+    tasks.find(task => task.id === Number(id)) || null
+  ),
   
   addTask: (task) => {
     tasks.push(task);

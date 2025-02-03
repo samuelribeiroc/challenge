@@ -7,6 +7,7 @@ import { Avatar, List, ListItemAvatar,
 } from '@mui/material';
 import { green } from '@mui/material/colors';
 import DoneIcon from '@mui/icons-material/Done';
+import ModalTaks from '../components/modal';
 
 const socket = io('http://localhost:5000', {
   transports: ['websocket'],
@@ -14,6 +15,20 @@ const socket = io('http://localhost:5000', {
 
 function Done() {
   const [tasks, setTasks] = useState([]);
+
+  //for modal
+  const [open, setOpen] = React.useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+    
+  const handleOpen = (taskId) => {
+    setSelectedTaskId(taskId);
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedTaskId(null);
+  };
 
   const fetchDoneTasks = async () => {
     try {
@@ -37,46 +52,51 @@ function Done() {
   }, []);
 
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        p: 2,
-        minHeight: '60dvh',
-        width: { md: '100%' } 
-      }}
-    >
-      <List sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {tasks.map((task, index) => (
-          <ListItemButton
-            key={index}
-            sx={{
-              bgcolor: green[500],
-              color: 'white',
-              p: 2,
+    <>
+      <ModalTaks open={open} onClose={handleClose} taskId={selectedTaskId} />
+      
+      <Paper
+        elevation={3}
+        sx={{
+          p: 2,
+          minHeight: '60dvh',
+          width: { md: '100%' } 
+        }}
+      >
+        <List sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {tasks.map((task, index) => (
+            <ListItemButton
+              key={index}
+              onClick={() => handleOpen(task.id)}
+              sx={{
+                bgcolor: green[500],
+                color: 'white',
+                p: 2,
 
-              '&:hover': {
-                bgcolor: green[400]
-              }
-            }}
-          >
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: green[700] }}>
-                <DoneIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={task.title}
-              primaryTypographyProps={{
-                noWrap: true,
-                style: { overflow: 'hidden', textOverflow: 'ellipsis' }
+                '&:hover': {
+                  bgcolor: green[400]
+                }
               }}
             >
-              {task.title}
-            </ListItemText>
-          </ListItemButton>
-        ))}
-      </List>
-    </Paper>
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: green[700] }}>
+                  <DoneIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={task.title}
+                primaryTypographyProps={{
+                  noWrap: true,
+                  style: { overflow: 'hidden', textOverflow: 'ellipsis' }
+                }}
+              >
+                {task.title}
+              </ListItemText>
+            </ListItemButton>
+          ))}
+        </List>
+      </Paper>
+    </>
   )
 }
 

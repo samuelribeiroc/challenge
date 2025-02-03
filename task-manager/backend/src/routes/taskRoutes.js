@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/tasks/pending', TaskController.getPending);
 router.get('/tasks/doing', TaskController.getDoing);
 router.get('/tasks/done', TaskController.getDone);
+router.get('/tasks/:id', TaskController.getById);
 
 router.post('/tasks', TaskController.createTask);
 router.put('/tasks/:id', TaskController.updateTask);
